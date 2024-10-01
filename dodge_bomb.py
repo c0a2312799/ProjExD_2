@@ -34,23 +34,38 @@ def main():
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
     kk_rct = kk_img.get_rect()
     kk_rct.center = 300, 200  # こうかとんの初期位置を設定
+    kk_img2 = pg.transform.rotozoom(pg.image.load("fig/6.png"), 0, 0.9)
+    kk_rct2 = kk_img2.get_rect()
     bb_img = pg.Surface((20, 20))  # 空のSurface
     bb_img.set_colorkey((0, 0, 0))  # 円の外側の色を透過させる
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
-    bb_rct = bb_img.get_rect()  # 爆弾Rectの抽出
+    bb_rct = bb_img.get_rect()  # 爆弾Rectの抽出 
+    
     bb_rct.centerx = random.randint(0, WIDTH)
     bb_rct.centery = random.randint(0, HEIGHT)
     vx, vy = +5, +5  # 爆弾の速度
     clock = pg.time.Clock()
     tmr = 0
+    
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
         screen.blit(bg_img, [0, 0])  # blitは背景画像貼り付け
         if kk_rct.colliderect(bb_rct):  # こうかとんと爆弾が重なっていたら
-            print("ゲームオーバー")
+            fonto = pg.font.Font(None, 80)
+            txt = fonto.render("Game Over", True, (255, 255, 255))
+            go = pg.Surface((WIDTH, HEIGHT))
+            pg.draw.rect(go, (0, 0, 0), pg.Rect(0, 0, WIDTH, HEIGHT))
+            go_rct = go.get_rect()
+            go.set_alpha(100)
+            screen.blit(go, go_rct)
+            screen.blit(txt, [400, 300])
+            screen.blit(kk_img2, [710, 300])
+            pg.display.update()
+            pg.time.wait(5000)
             return 
+        
 
         key_lst = pg.key.get_pressed()  # キー反応するやつ
         sum_mv = [0, 0]  # 横座標, 縦座標
