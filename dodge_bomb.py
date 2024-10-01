@@ -12,6 +12,17 @@ DELTA = {pg.K_UP:(0, -5),
          }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+acs =[a for a in range(1, 11)]
+bb_imgs = []
+for r in range(1, 11):
+    bb_img = pg.Surface((20 * r, 20 * r))
+    pg.draw.circle(bb_img, (255, 0, 0), (10 * r, 10 * r), 10 * r)
+
+
+#def ensyuu2():
+#    avx = vx * bb_accs[min(tmr//500, 9)]
+#    bb_img = bb_imgs[min(tmr//500, 9)]
+
 
 def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
     """
@@ -40,7 +51,6 @@ def main():
     bb_img.set_colorkey((0, 0, 0))  # 円の外側の色を透過させる
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
     bb_rct = bb_img.get_rect()  # 爆弾Rectの抽出 
-    
     bb_rct.centerx = random.randint(0, WIDTH)
     bb_rct.centery = random.randint(0, HEIGHT)
     vx, vy = +5, +5  # 爆弾の速度
@@ -86,7 +96,11 @@ def main():
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)
 
-        bb_rct.move_ip(vx, vy)
+        level = min(tmr // 500, 9)
+        avx = vx * acs[level]
+        bb_rct.move_ip(avx, vy)
+        screen.blit(bb_imgs[level], bb_rct)
+        #bb_rct.move_ip(vx, vy)
         yoko, tate = check_bound(bb_rct)
         if not yoko:
             vx *= -1
