@@ -68,7 +68,7 @@ def main():
             go = pg.Surface((WIDTH, HEIGHT))
             pg.draw.rect(go, (0, 0, 0), pg.Rect(0, 0, WIDTH, HEIGHT))
             go_rct = go.get_rect()
-            go.set_alpha(150)
+            go.set_alpha(100)
             screen.blit(go, go_rct)
             screen.blit(txt, [400, 300])
             screen.blit(kk_img2, [710, 300])
